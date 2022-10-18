@@ -1,4 +1,18 @@
-@import url(welcome.css);
+@import "../../resources/style/welcome.css";
+/*
+@import "welcome.css"
+->
+GET ".../jakarta.faces.resource/welcome.css"
+->
+sadness :(
+
+@import "../../resources/style/welcome.css"
+->
+GET ".../resources/style/welcome.css"
+->
+happiness :)
+ */
+
 
 /*
 Main styles
