@@ -1,0 +1,15 @@
+@import url(welcome.css);
+
+/*
+Main styles
+ */
+div.hat {
+    font-family: sans-serif;
+    color: #010101;
+    font-size: 20px;
+    background-color: #EDB88B;
+}
+
+canvas {
+    margin: 5px;
+}

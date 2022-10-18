@@ -5,6 +5,28 @@
     http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd"
               version="1.2">
 
+    <navigation-rule>
+        <from-view-id>welcome_page.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>startPage</from-outcome>
+            <to-view-id>start_page.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 
+    <navigation-rule>
+        <from-view-id>start_page.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>mainPage</from-outcome>
+            <to-view-id>main_page.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>main_page.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>startPage</from-outcome>
+            <to-view-id>start_page.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 
 </faces-config>

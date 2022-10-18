@@ -6,7 +6,7 @@
     <default-context-path>/</default-context-path>
     
     <welcome-file-list>
-        <welcome-file>index.xhtml</welcome-file>
+        <welcome-file>welcome_page.xhtml</welcome-file>
     </welcome-file-list>
 
     <servlet>
@@ -18,6 +18,10 @@
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
 
 </web-app>

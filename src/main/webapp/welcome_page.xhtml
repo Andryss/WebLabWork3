@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+<f:view>
+    <h:head>
+        <title>Welcome page</title>
+        <h:outputStylesheet id="welcome-style" library="style" name="welcome.css"/>
+    </h:head>
+    <h:body>
+        <div class="outer">
+            <p>Welcome to ...</p>
+            <label class="game-name">How not to get in the area</label>
+            <p>game</p>
+        </div>
+        <div class="outer">
+            <div>
+                <h:graphicImage id="kitty-dance" library="picture" name="welcome.gif" alt="the best dance in the world"/>
+            </div>
+<!--            TODO: fix audio -->
+        </div>
+        <div class="outer">
+            <h:form id="link-form">
+                <p>
+                    To start the game click <h:commandLink id="start-page-link" action="startPage">here</h:commandLink>
+                </p>
+            </h:form>
+        </div>
+        <h:graphicImage id="cookieImage" library="picture" name="cookie.png" alt="cute cookie"/>
+        <h:outputScript id="welcome-script" library="script" name="welcome.js"/>
+    </h:body>
+</f:view>
+</html>
