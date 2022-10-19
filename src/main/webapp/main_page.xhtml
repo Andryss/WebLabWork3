@@ -3,6 +3,7 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <f:view>
     <h:head>
@@ -10,6 +11,31 @@
         <h:outputStylesheet id="main-style" library="style" name="main.css"/>
     </h:head>
     <h:body>
+        <div class="outer">
+            <canvas id="plot" width="500" height="500"></canvas>
+        </div>
+        <div class="outer">
+            <p>
+                Enter parameters
+            </p>
+            <h:form id="submitForm">
+                <p id="xValue">
+                    <label>X: </label>
+                    <p:spinner/>
+                </p>
+                <p id="yValue">
+                    <label>Y: </label>
+                    <h:inputText/>
+                </p>
+                <p id="rValue">
+                    <label>R: </label>
+                    <h:selectBooleanCheckbox/>
+                </p>
+                <p>
+                    <h:commandButton/>
+                </p>
+            </h:form>
+        </div>
         <div class="outer">
             <h:form id="link-form">
                 <p>
