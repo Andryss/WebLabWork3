@@ -15,18 +15,23 @@
 
     <dependencies>
 
-        <!-- https://mvnrepository.com/artifact/jakarta.faces/jakarta.faces-api -->
         <dependency>
-            <groupId>jakarta.faces</groupId>
-            <artifactId>jakarta.faces-api</artifactId>
-            <version>4.0.1</version>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-api</artifactId>
+            <version>2.2.20</version><!-- because jsf 2.3+ sucks -->
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-impl</artifactId>
+            <version>2.2.20</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.primefaces/primefaces -->
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>11.0.0</version>
+            <version>12.0.0</version>
         </dependency>
 
     </dependencies>

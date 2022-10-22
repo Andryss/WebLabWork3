@@ -3,14 +3,19 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 <f:view>
     <h:head>
         <title>Main page</title>
         <h:outputStylesheet id="main-style" library="style" name="main.css"/>
     </h:head>
     <h:body>
+        <div class="hat outer">
+            <p>
+                Test your luck
+            </p>
+        </div>
         <div class="outer">
             <canvas id="plot" width="500" height="500"></canvas>
         </div>
@@ -21,20 +26,84 @@
             <h:form id="submitForm">
                 <p id="xValue">
                     <label>X: </label>
-                    <p:spinner/>
+                    <p:spinner id="xSpinner"
+                               min="-3" max="3" stepFactor="1" maxlength="10"
+                               placeholder="-3 &#8804; X &#8804; 3"
+                               title="X coordinate (-3 &#8804; X &#8804; 3)"
+                               value="#{formBean.xField}">
+                        <f:converter converterId="javax.faces.Integer"/>
+                        <f:validateLongRange minimum="-3" maximum="3"/>
+                    </p:spinner>
+                    <h:message for="xSpinner" styleClass="error-text"/>
                 </p>
                 <p id="yValue">
                     <label>Y: </label>
-                    <h:inputText/>
+                    <h:inputText id="yTextField"
+                                 maxlength="10"
+                                 title="Y coordinate (-5 &#8804; Y &#8804; 5)"
+                                 converter="javax.faces.Double"
+                                 value="#{formBean.yField}">
+                        <f:converter converterId="javax.faces.Double"/>
+                        <f:validateDoubleRange minimum="-5" maximum="5"/>
+                    </h:inputText>
+                    <h:message for="yTextField" styleClass="error-text"/>
                 </p>
                 <p id="rValue">
                     <label>R: </label>
-                    <h:selectBooleanCheckbox/>
+                    <h:selectBooleanCheckbox id="rCheckBox1" title="Radius R equal to 1"
+                                             value="#{formBean.rField1}">
+                        <f:converter converterId="javax.faces.Boolean"/>
+                    </h:selectBooleanCheckbox><label for="rCheckBox1">1</label>
+
+                    <h:selectBooleanCheckbox id="rCheckBox2" title="Radius R equal to 2"
+                                             value="#{formBean.rField2}">
+                        <f:converter converterId="javax.faces.Boolean"/>
+                    </h:selectBooleanCheckbox><label for="rCheckBox2">2</label>
+
+                    <h:selectBooleanCheckbox id="rCheckBox3" title="Radius R equal to 3"
+                                             value="#{formBean.rField3}">
+                        <f:converter converterId="javax.faces.Boolean"/>
+                    </h:selectBooleanCheckbox><label for="rCheckBox3">3</label>
+
+                    <h:selectBooleanCheckbox id="rCheckBox4" title="Radius R equal to 4"
+                                             value="#{formBean.rField4}">
+                        <f:converter converterId="javax.faces.Boolean"/>
+                    </h:selectBooleanCheckbox><label for="rCheckBox4">4</label>
+
+                    <h:selectBooleanCheckbox id="rCheckBox5" title="Radius R equal to 5"
+                                             value="#{formBean.rField5}">
+                        <f:converter converterId="javax.faces.Boolean"/>
+                    </h:selectBooleanCheckbox><label for="rCheckBox5">5</label>
                 </p>
                 <p>
-                    <h:commandButton/>
+                    <h:commandButton id="submitButton" value="I'm lucky" type="submit"
+                                     action="#{formBean.processForm}">
+                        <f:ajax execute="submitForm" render="submitForm"/>
+                    </h:commandButton>
+                    <h:message for="submitButton"/>
                 </p>
             </h:form>
+        </div>
+        <div class="outer">
+            <p>
+                History
+            </p>
+            <table id="historyTable">
+                <thead>
+                <tr>
+                    <td class="number-col">#</td>
+                    <td class="time-col">Time</td>
+                    <td class="exec-time-col">Execution time</td>
+                    <td class="x-col">X</td>
+                    <td class="y-col">Y</td>
+                    <td class="r-col">R</td>
+                    <td class="result-col">Result</td>
+                </tr>
+                </thead>
+                <tbody id="historyTableContent">
+
+                </tbody>
+            </table>
         </div>
         <div class="outer">
             <h:form id="link-form">

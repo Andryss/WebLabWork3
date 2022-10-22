@@ -1,1 +1,57 @@
 @import "../../resources/style/start.css";
+
+/*
+Table styles
+ */
+table {
+    width: 100%;
+}
+
+thead {
+    background-color: #1AD8D5;
+}
+
+td {
+    text-align: center;
+}
+
+td.number-col {
+    width: 3%;
+}
+
+td.time-col {
+    width: 40%;
+}
+
+td.exec-time-col {
+    width: 15%;
+}
+
+td.x-col,
+td.y-col,
+td.r-col {
+    width: 10%;
+}
+
+td.result-col {
+    width: 12%;
+}
+
+tbody tr:nth-child(odd):hover {
+    background-color: #dbecea;
+}
+
+tbody tr:nth-child(even):hover {
+    background-color: #9dece9;
+}
+
+
+
+/*
+Field styles
+ */
+.error-text {
+    margin-left: 5px;
+    color: red;
+    position: absolute;
+}
