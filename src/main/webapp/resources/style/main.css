@@ -1,48 +1,65 @@
 @import "../../resources/style/start.css";
 
+
+/*
+Main styles
+ */
+.centered {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+
 /*
 Table styles
  */
-table {
+.history-table {
     width: 100%;
 }
 
-thead {
-    background-color: #1AD8D5;
+.history-table thead {
+    background-color: #18dcd9;
 }
 
-td {
+.history-table td {
     text-align: center;
 }
 
-td.number-col {
+.history-table th.number-col {
+    background-color: #18dcd9;
+    text-align: center;
     width: 3%;
 }
-
-td.time-col {
+.history-table th.time-col {
+    background-color: #18dcd9;
+    text-align: center;
     width: 40%;
 }
-
-td.exec-time-col {
+.history-table th.exec-time-col {
+    background-color: #18dcd9;
+    text-align: center;
     width: 15%;
 }
-
-td.x-col,
-td.y-col,
-td.r-col {
+.history-table th.x-col,
+.history-table th.y-col,
+.history-table th.r-col {
+    background-color: #18dcd9;
+    text-align: center;
     width: 10%;
 }
-
-td.result-col {
+.history-table th.result-col {
+    background-color: #18dcd9;
+    text-align: center;
     width: 12%;
 }
 
-tbody tr:nth-child(odd):hover {
+.history-table tbody tr:nth-child(odd):hover {
     background-color: #dbecea;
 }
 
-tbody tr:nth-child(even):hover {
-    background-color: #9dece9;
+.history-table tbody tr:nth-child(even):hover {
+    background-color: #b8dcdb;
 }
 
 
@@ -54,4 +71,17 @@ Field styles
     margin-left: 5px;
     color: red;
     position: absolute;
+}
+
+
+
+/*
+Text styles
+ */
+td.positive-result {
+    color: green;
+}
+
+td.negative-result {
+    color: red;
 }

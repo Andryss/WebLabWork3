@@ -4,6 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:p="http://primefaces.org/ui">
 <f:view>
     <h:head>
@@ -11,107 +12,119 @@
         <h:outputStylesheet id="main-style" library="style" name="main.css"/>
     </h:head>
     <h:body>
-        <div class="hat outer">
+        <h:panelGroup layout="block" styleClass="hat outer">
             <p>
                 Test your luck
             </p>
-        </div>
-        <div class="outer">
-            <canvas id="plot" width="500" height="500"></canvas>
-        </div>
-        <div class="outer">
+        </h:panelGroup>
+        <h:panelGroup layout="block" styleClass="outer">
+            <canvas id="plot" width='500' height='500'></canvas>
+        </h:panelGroup>
+        <h:panelGroup layout="block" styleClass="outer">
             <p>
                 Enter parameters
             </p>
             <h:form id="submitForm">
-                <p id="xValue">
-                    <label>X: </label>
+                <h:panelGrid styleClass="centered" columns="3">
+
+                    <h:outputLabel for="xSpinner" value="X: "/>
                     <p:spinner id="xSpinner"
                                min="-3" max="3" stepFactor="1" maxlength="10"
                                placeholder="-3 &#8804; X &#8804; 3"
                                title="X coordinate (-3 &#8804; X &#8804; 3)"
-                               value="#{formBean.xField}">
-                        <f:converter converterId="javax.faces.Integer"/>
-                        <f:validateLongRange minimum="-3" maximum="3"/>
+                               value="#{formBean.x}">
+                        <f:converter converterId="xFieldConverter"/>
+                        <f:validator validatorId="xFieldValidator"/>
                     </p:spinner>
                     <h:message for="xSpinner" styleClass="error-text"/>
-                </p>
-                <p id="yValue">
-                    <label>Y: </label>
+
+                    <h:outputLabel for="yTextField" value="Y: "/>
                     <h:inputText id="yTextField"
                                  maxlength="10"
                                  title="Y coordinate (-5 &#8804; Y &#8804; 5)"
-                                 converter="javax.faces.Double"
-                                 value="#{formBean.yField}">
-                        <f:converter converterId="javax.faces.Double"/>
-                        <f:validateDoubleRange minimum="-5" maximum="5"/>
+                                 value="#{formBean.y}">
+                        <f:converter converterId="yFieldConverter"/>
+                        <f:validator validatorId="yFieldValidator"/>
                     </h:inputText>
                     <h:message for="yTextField" styleClass="error-text"/>
-                </p>
-                <p id="rValue">
-                    <label>R: </label>
-                    <h:selectBooleanCheckbox id="rCheckBox1" title="Radius R equal to 1"
-                                             value="#{formBean.rField1}">
-                        <f:converter converterId="javax.faces.Boolean"/>
-                    </h:selectBooleanCheckbox><label for="rCheckBox1">1</label>
 
-                    <h:selectBooleanCheckbox id="rCheckBox2" title="Radius R equal to 2"
-                                             value="#{formBean.rField2}">
-                        <f:converter converterId="javax.faces.Boolean"/>
-                    </h:selectBooleanCheckbox><label for="rCheckBox2">2</label>
+                    <h:outputLabel for="rCheckbox" value="R: "/>
+                    <h:selectManyCheckbox id="rCheckbox"
+                                          title="R radius (1 &#8804; R &#8804; 5)"
+                                          value="#{formBean.RCheckbox}">
+                        <f:selectItems id="rCheckboxValues" value="#{formBean.RCheckBoxValues}"/>
+                        <f:converter for="rCheckbox" converterId="rFieldConverter"/>
+                        <f:validator for="rCheckbox" validatorId="rFieldValidator"/>
+                    </h:selectManyCheckbox>
+                    <h:message for="rCheckbox" styleClass="error-text"/>
 
-                    <h:selectBooleanCheckbox id="rCheckBox3" title="Radius R equal to 3"
-                                             value="#{formBean.rField3}">
-                        <f:converter converterId="javax.faces.Boolean"/>
-                    </h:selectBooleanCheckbox><label for="rCheckBox3">3</label>
-
-                    <h:selectBooleanCheckbox id="rCheckBox4" title="Radius R equal to 4"
-                                             value="#{formBean.rField4}">
-                        <f:converter converterId="javax.faces.Boolean"/>
-                    </h:selectBooleanCheckbox><label for="rCheckBox4">4</label>
-
-                    <h:selectBooleanCheckbox id="rCheckBox5" title="Radius R equal to 5"
-                                             value="#{formBean.rField5}">
-                        <f:converter converterId="javax.faces.Boolean"/>
-                    </h:selectBooleanCheckbox><label for="rCheckBox5">5</label>
-                </p>
-                <p>
+                    <!-- верстка комментариями -->
                     <h:commandButton id="submitButton" value="I'm lucky" type="submit"
                                      action="#{formBean.processForm}">
                         <f:ajax execute="submitForm" render="submitForm"/>
+                        <f:ajax render="historyTable"/>
                     </h:commandButton>
-                    <h:message for="submitButton"/>
-                </p>
+                    <!-- верстка комментариями -->
+
+                </h:panelGrid>
             </h:form>
-        </div>
-        <div class="outer">
+        </h:panelGroup>
+        <h:panelGroup layout="block" styleClass="outer">
             <p>
                 History
             </p>
-            <table id="historyTable">
-                <thead>
-                <tr>
-                    <td class="number-col">#</td>
-                    <td class="time-col">Time</td>
-                    <td class="exec-time-col">Execution time</td>
-                    <td class="x-col">X</td>
-                    <td class="y-col">Y</td>
-                    <td class="r-col">R</td>
-                    <td class="result-col">Result</td>
-                </tr>
-                </thead>
-                <tbody id="historyTableContent">
+            <p:dataTable id="historyTable" styleClass="history-table"
+                         value="#{formBean.history}" var="resp">
 
-                </tbody>
-            </table>
-        </div>
-        <div class="outer">
-            <h:form id="link-form">
-                <p>
-                    Go to <h:commandLink id="start-page-link" action="startPage">the start page</h:commandLink>
-                </p>
-            </h:form>
-        </div>
+                <p:column styleClass="number-col">
+                    <f:facet name="header">#</f:facet>
+                    <h:outputText value="#{formBean.history.indexOf(resp) + 1}"/>
+                </p:column>
+
+                <p:column styleClass="time-col">
+                    <f:facet name="header">Time</f:facet>
+                    <h:outputText value="#{resp.responseTimeString}"/>
+                </p:column>
+
+                <p:column styleClass="exec-time-col">
+                    <f:facet name="header">Execution time</f:facet>
+                    <h:outputText value="#{resp.executionTime}"/>
+                </p:column>
+
+                <p:column styleClass="x-col">
+                    <f:facet name="header">X</f:facet>
+                    <h:outputText value="#{resp.x}"/>
+                </p:column>
+
+                <p:column styleClass="y-col">
+                    <f:facet name="header">Y</f:facet>
+                    <h:outputText value="#{resp.y}"/>
+                </p:column>
+
+                <p:column styleClass="r-col">
+                    <f:facet name="header">R</f:facet>
+                    <h:outputText value="#{resp.r}"/>
+                </p:column>
+
+                <p:column styleClass="result-col">
+                    <f:facet name="header">Result</f:facet>
+                    <c:choose>
+                        <c:when test="#{resp.result}">
+                            In the area
+                        </c:when>
+                        <c:otherwise>
+                            Not in the area
+                        </c:otherwise>
+                    </c:choose>
+                </p:column>
+
+            </p:dataTable>
+        </h:panelGroup>
+        <h:panelGroup layout="block" styleClass="outer">
+            <p>
+                Go to <h:link outcome="startPage">the start page</h:link>
+            </p>
+        </h:panelGroup>
         <h:graphicImage id="cookieImage" library="picture" name="cookie.png"/>
         <h:outputScript id="main-script" library="script" name="main.js"/>
     </h:body>
