@@ -10,21 +10,19 @@
         <h:outputStylesheet id="start-style" library="style" name="start.css"/>
     </h:head>
     <h:body>
-        <div class="hat outer">
+        <h:panelGroup layout="block" styleClass="hat outer">
             <p>Krivosheev Andrey Aleksandrovich, P32111, case 114567</p>
-        </div>
-        <div class="outer">
+        </h:panelGroup>
+        <h:panelGroup layout="block" styleClass="outer">
             <!-- looks like jsf thouths that canvas sucks -->
             <canvas id="clock" width="500" height="500"></canvas>
             <!-- it's not a problem, but ... -->
-        </div>
-        <div class="outer">
-            <h:form id="link-form">
-                <p>
-                    Go to <h:commandLink id="main-page-link" action="mainPage">the main page</h:commandLink>
-                </p>
-            </h:form>
-        </div>
+        </h:panelGroup>
+        <h:panelGroup layout="block" styleClass="outer">
+            <p>
+                Go to <h:link outcome="mainPage">the main page</h:link>
+            </p>
+        </h:panelGroup>
         <h:graphicImage id="cookieImage" library="picture" name="cookie.png"/>
         <h:outputScript id="start-script" library="script" name="start.js"/>
     </h:body>
