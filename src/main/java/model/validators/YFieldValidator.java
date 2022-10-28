@@ -13,15 +13,14 @@ public class YFieldValidator implements Validator {
     @Override
     public void validate(FacesContext facesContext, UIComponent uiComponent, Object o) throws ValidatorException {
         if (facesContext != null && uiComponent != null) {
-            if (o != null) {
-                try {
-                    double converted = o instanceof Number ? ((Number)o).doubleValue() : Double.parseDouble(o.toString());
-                    if (converted < -5 || converted > 5) {
-                        throw new ValidatorException(new FacesMessage("error wrong range"));
-                    }
-                } catch (NumberFormatException var6) {
-                    throw new ValidatorException(new FacesMessage("object isn't a number"));
+            if (o == null) throw new ValidatorException(new FacesMessage("error empty"));
+            try {
+                double converted = o instanceof Number ? ((Number)o).doubleValue() : Double.parseDouble(o.toString());
+                if (converted < -5 || converted > 5) {
+                    throw new ValidatorException(new FacesMessage("error wrong range"));
                 }
+            } catch (NumberFormatException var6) {
+                throw new ValidatorException(new FacesMessage("object isn't a number"));
             }
         } else {
             throw new NullPointerException();

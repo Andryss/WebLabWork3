@@ -1,3 +1,113 @@
+"use strict"
+
+import {
+    validateNumberRadioField,
+    validateNumberCheckboxField,
+    validateNumberTextField,
+
+    clearNumberRadioField,
+    clearNumberTextField,
+    clearNumberCheckboxField
+}
+    from "./validators.js";
+
+import {
+    getRadioNumberValue,
+    forcedGetRadioValue,
+
+    getTextNumberValue,
+    forcedGetTextValue,
+
+    getCheckboxNumberValue,
+    forcedGetCheckboxValue
+}
+    from "./getters.js";
+
+/**
+ * @type {NodeListOf<HTMLInputElement>}
+ */
+const xField = document.getElementsByName("submitForm:xSpinner_input"),
+    yField = document.getElementsByName("submitForm:yTextField"),
+    rField = document.getElementsByName("submitForm:rCheckbox");
+
+
+initializeFields();
+
+function initializeFields() {
+    initializeXField();
+    initializeYField();
+    initializeRField();
+}
+
+setInterval(() => {
+    drawPlot();
+}, 100)
+
+
+
+function initializeXField() {
+    //clearXField();
+}
+
+/**
+ * @return {number|null}
+ */
+function forcedGetX() {
+    return parseFloat(forcedGetTextValue(xField));
+}
+
+
+
+function initializeYField() {
+    //clearYField();
+}
+
+/**
+ * @return {number}
+ */
+function forcedGetY() {
+    return parseFloat(forcedGetTextValue(yField));
+}
+
+
+
+function initializeRField() {
+    // rField.forEach(value => {
+    //     value.onchange = (() => { drawPlotOnCanvas(forcedGetR()) })
+    // })
+}
+
+/**
+ * @return {number|null}
+ */
+function forcedGetR() {
+    return parseFloat(forcedGetCheckboxValue(rField));
+}
+
+
+
+/**
+ * @type {HTMLTableRowElement|null}
+ */
+let hoveringRow = null
+
+setInterval(() => {
+    const historyTableContent = document.getElementById("historyTable_data");
+    for (let row of historyTableContent.rows) {
+        if (!row.classList.contains("apply-hover-listener")) {
+            row.onmouseenter = function () {
+                hoveringRow = row;
+                drawPlot();
+            }
+            row.onmouseleave = function () {
+                hoveringRow = null;
+                drawPlot();
+            }
+            row.classList.add("apply-hover-listener")
+        }
+    }
+}, 100)
+
 /**
  * @type {HTMLCanvasElement}
  */
@@ -35,7 +145,8 @@ const xCol = 3,
 
 let xPoint = null,
     yPoint = null;
-const pointRoundParam = 1e2;
+const xPointRoundParam = 1e0,
+    yPointRoundParam = 1e2;
 
 /**
  * @param {number|null} newValue
@@ -44,7 +155,13 @@ function setXPoint(newValue) {
     if (newValue == null) {
         xPoint = newValue;
     } else {
-        xPoint = Math.round(newValue * pointRoundParam) / pointRoundParam;
+        xPoint = Math.min(
+            Math.max(
+                Math.round(newValue * xPointRoundParam) / xPointRoundParam,
+                -3
+            ),
+            3
+        );
     }
 }
 
@@ -55,14 +172,14 @@ function setYPoint(newValue) {
     if (newValue == null) {
         yPoint = newValue;
     } else {
-        yPoint = Math.round(newValue * pointRoundParam) / pointRoundParam;
+        yPoint = Math.round(newValue * yPointRoundParam) / yPointRoundParam;
     }
 }
 
 drawPlotOnCanvas(null);
 
 function drawPlot() {
-    drawPlotOnCanvas(getRValueOrNull())
+    drawPlotOnCanvas(forcedGetR())
 }
 
 /**
@@ -83,12 +200,12 @@ function drawPlotOnCanvas(rValue) {
             // area
             ctx.beginPath();
             ctx.moveTo(center, center);
-            ctx.lineTo(center, center + rValue * unit);
-            ctx.lineTo(center + rValueHalf * unit, center);
-            ctx.lineTo(center + rValueHalf * unit, center - rValue * unit);
-            ctx.lineTo(center, center - rValue * unit);
             ctx.lineTo(center, center - rValueHalf * unit);
-            ctx.arcTo(center - rValueHalf * unit, center - rValueHalf * unit, center - rValueHalf * unit, center, rValueHalf * unit);
+            ctx.lineTo(center - rValueHalf * unit, center);
+            ctx.arcTo(center - rValueHalf * unit, center + rValueHalf * unit, center, center + rValueHalf * unit, rValueHalf * unit);
+            ctx.lineTo(center, center + rValue * unit);
+            ctx.lineTo(center + rValueHalf * unit, center + rValue * unit);
+            ctx.lineTo(center + rValueHalf * unit, center);
             ctx.fill();
         }
 
@@ -165,17 +282,21 @@ function drawPlotOnCanvas(rValue) {
         ctx.fillText("Y", center - arrowWidth * 2, fontSize + arrowWidth);
 
         // points from table
+        const historyTableContent = document.getElementById("historyTable_data");
         for (const row of historyTableContent.rows) {
-            const xValueCell = parseFloat(row.cells[xCol].innerText),
-                yValueCell = parseFloat(row.cells[yCol].innerText),
-                rValueCell = parseFloat(row.cells[rCol].innerText),
-                resCell = row.cells[resCol].innerText.toLowerCase();
-            if (!isNaN(xValueCell) && !isNaN(yValueCell) && !isNaN(rValueCell)) {
-                ctx.fillStyle = (rValueCell === rValue) ? ((resCell.includes("not")) ? "orange" : "green") : "grey";
-                ctx.beginPath();
-                const pointScale = (row === hoveringRow) ? 1.5 : 1;
-                ctx.arc(center + unit * xValueCell, center - unit * yValueCell, streakWidth * 1.5 * pointScale, 0, 2 * Math.PI, false);
-                ctx.fill();
+            if (!row.classList.contains("ui-datatable-empty-message")) {
+                const xValueCell = parseFloat(row.cells[xCol].innerText),
+                    yValueCell = parseFloat(row.cells[yCol].innerText),
+                    rValueCell = parseFloat(row.cells[rCol].innerText),
+                    resCell = row.cells[resCol].innerText.toLowerCase();
+                if (!isNaN(xValueCell) && !isNaN(yValueCell) && !isNaN(rValueCell)) {
+                    // TODO: understand color
+                    ctx.fillStyle = (rValueCell === rValue) ? ((resCell.includes("not")) ? "orange" : "green") : "grey";
+                    ctx.beginPath();
+                    const pointScale = (row === hoveringRow) ? 1.5 : 1;
+                    ctx.arc(center + unit * xValueCell, center - unit * yValueCell, streakWidth * 1.5 * pointScale, 0, 2 * Math.PI, false);
+                    ctx.fill();
+                }
             }
         }
 
@@ -193,6 +314,62 @@ function drawPlotOnCanvas(rValue) {
         }
     }
 }
+
+/**
+ * @param {number} xOffset
+ * @return {number}
+ */
+function getXCoordinateOrConvert(xOffset) {
+    let xValue = forcedGetR();
+    if (xValue == null) xValue = convertXValueInCoordinate(xOffset);
+    return xValue;
+}
+
+/**
+ * @param {number} xOffset
+ * @return {number}
+ */
+function convertXValueInCoordinate(xOffset) {
+    return (xOffset - center) / unit;
+}
+
+/**
+ * @param {number} yOffset
+ * @return {number}
+ */
+function getYCoordinateOrConvert(yOffset) {
+    let yValue = forcedGetY();
+    if (yValue == null) yValue = convertYValueInCoordinate(yOffset);
+    return yValue;
+}
+
+/**
+ * @param {number} yOffset
+ * @return {number}
+ */
+function convertYValueInCoordinate(yOffset) {
+    return - (yOffset - center) / unit;
+}
+
+setInterval(() => {
+    const canvas = document.getElementById("plotCanvas");
+    if (!canvas.classList.contains("apply-mouse-motion-listener")) {
+        // TODO: fix pointing
+        canvas.onmousemove = (event) => {
+            const bound = canvas.getBoundingClientRect();
+            setXPoint(getXCoordinateOrConvert(event.x - bound.x));
+            setYPoint(getYCoordinateOrConvert(event.y - bound.y));
+            drawPlot();
+        }
+
+        canvas.onmouseleave = () => {
+            setXPoint(null);
+            setYPoint(null);
+            drawPlot();
+        }
+        canvas.classList.add("apply-mouse-motion-listener");
+    }
+}, 100)
 
 
 document.getElementById("cookieImage").onclick = () => {

@@ -3,7 +3,6 @@ package model;
 import java.util.*;
 
 public class HistoryManagerImpl implements HistoryManager {
-    private static final String mapName = "histories";
     private static final int maxUserLength = 10;
 
     private final Map<Object, LinkedList<Response>> histories = Collections.synchronizedMap(new WeakHashMap<>());

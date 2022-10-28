@@ -13,15 +13,14 @@ public class RFieldValidator implements Validator {
     @Override
     public void validate(FacesContext facesContext, UIComponent uiComponent, Object o) throws ValidatorException {
         if (facesContext != null && uiComponent != null) {
-            if (o != null) {
-                if (o instanceof int[]) {
-                    int[] converted = (int[]) o;
-                    if (converted.length != 1) {
-                        throw new ValidatorException(new FacesMessage("wrong selected count"));
-                    }
-                } else {
-                    throw new ValidatorException(new FacesMessage("object isn't an array of numbers"));
+            if (o == null) throw new ValidatorException(new FacesMessage("error empty"));
+            if (o instanceof int[]) {
+                int[] converted = (int[]) o;
+                if (converted.length != 1) {
+                    throw new ValidatorException(new FacesMessage("wrong selected count"));
                 }
+            } else {
+                throw new ValidatorException(new FacesMessage("object isn't an array of numbers"));
             }
         } else {
             throw new NullPointerException();

@@ -59,7 +59,7 @@ Table styles
 }
 
 .history-table tbody tr:nth-child(even):hover {
-    background-color: #b8dcdb;
+    background-color: #c6dcdc;
 }
 
 
@@ -78,10 +78,10 @@ Field styles
 /*
 Text styles
  */
-td.positive-result {
+label.positive-result {
     color: green;
 }
 
-td.negative-result {
+label.negative-result {
     color: red;
 }

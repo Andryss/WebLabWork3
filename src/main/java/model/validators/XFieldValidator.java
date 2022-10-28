@@ -13,15 +13,14 @@ public class XFieldValidator implements Validator {
     @Override
     public void validate(FacesContext facesContext, UIComponent uiComponent, Object o) throws ValidatorException {
         if (facesContext != null && uiComponent != null) {
-            if (o != null) {
-                try {
-                    long converted = o instanceof Number ? ((Number)o).longValue() : Long.parseLong(o.toString());
-                    if (converted < -3 || converted > 3) {
-                        throw new ValidatorException(new FacesMessage("error wrong range"));
-                    }
-                } catch (NumberFormatException var6) {
-                    throw new ValidatorException(new FacesMessage("object isn't a number"));
+            if (o == null) throw new ValidatorException(new FacesMessage("error empty"));
+            try {
+                int converted = o instanceof Number ? ((Number)o).intValue() : Integer.parseInt(o.toString());
+                if (converted < -3 || converted > 3) {
+                    throw new ValidatorException(new FacesMessage("error wrong range"));
                 }
+            } catch (NumberFormatException var6) {
+                throw new ValidatorException(new FacesMessage("object isn't a number"));
             }
         } else {
             throw new NullPointerException();

@@ -37,20 +37,6 @@ public class FormBean {
         this.r = r;
     }
 
-    private final Object session = FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-
-    public List<Response> getHistory() {
-        return HistoryManager.instance.getUserHistory(session);
-    }
-
-    public void processForm() {
-        if (rCheckbox != null && rCheckbox.length == 1) {
-            r = rCheckbox[0];
-            Request request = new Request(x, y, r);
-            HistoryManager.instance.addUserRequest(session, request);
-            clearForm();
-        }
-    }
 
     private int[] rCheckbox;
     public int[] getRCheckbox() {
@@ -64,6 +50,25 @@ public class FormBean {
         return new int[]{1, 2, 3, 4, 5};
     }
 
+
+    private final Object session = FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+
+    public List<Response> getHistory() {
+        return HistoryManager.instance.getUserHistory(session);
+    }
+
+    public void processForm() {
+        if (rCheckbox != null && rCheckbox.length == 1) {
+            r = rCheckbox[0];
+            processRequest();
+            clearForm();
+        }
+    }
+
+    private void processRequest() {
+        Request request = new Request(x, y, r);
+        HistoryManager.instance.addUserRequest(session, request);
+    }
 
     private void clearForm() {
         setX(0);
