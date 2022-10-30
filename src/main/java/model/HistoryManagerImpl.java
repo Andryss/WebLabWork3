@@ -14,18 +14,13 @@ public class HistoryManagerImpl implements HistoryManager {
 
     @Override
     public void addUserRequest(String sessionId, Request request) {
-        User user = dao.getUserById(sessionId);
-        if (user == null) {
-            user = new User(sessionId);
-            dao.saveUser(user);
-        }
+        User user = getUserById(sessionId);
         History newHistory = createResponse(request);
         newHistory.setUser(user);
         dao.saveHistory(newHistory);
 
         user = dao.getUserById(sessionId);
         SortedSet<History> history = user.getHistories();
-        System.out.println(history.size());
         while (history.size() > maxUserLength) {
             History lastHistory = history.last();
             dao.deleteHistory(lastHistory);
@@ -49,11 +44,15 @@ public class HistoryManagerImpl implements HistoryManager {
 
     @Override
     public SortedSet<History> getUserHistory(String sessionId) {
+        return getUserById(sessionId).getHistories();
+    }
+
+    private User getUserById(String sessionId) {
         User user = dao.getUserById(sessionId);
         if (user == null) {
             user = new User(sessionId);
             dao.saveUser(user);
         }
-        return user.getHistories();
+        return user;
     }
 }

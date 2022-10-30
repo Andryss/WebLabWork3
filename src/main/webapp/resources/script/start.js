@@ -31,6 +31,19 @@ const center = width / 2,
     fontFamily = "Comic Sans MS",
     fontStr = fontSizeStr + " " + fontFamily;
 
+let rgbString;
+
+updateClock();
+drawClock();
+
+function updateClock() {
+    rgbString = "rgb(" +
+        Math.round(Math.random() * 255) + "," +
+        Math.round(Math.random() * 255) + "," +
+        Math.round(Math.random() * 255) +
+        ")";
+}
+
 function drawClock() {
     if (clockCanvas.getContext) {
 
@@ -39,7 +52,7 @@ function drawClock() {
         ctx.clearRect(0,0,width,height);
 
         // form
-        ctx.fillStyle = "aquamarine"
+        ctx.fillStyle = rgbString;
         ctx.beginPath();
         ctx.arc(center, center, radius, 0, 2 * Math.PI, false);
         ctx.fill();
@@ -104,9 +117,12 @@ function drawClock() {
     }
 }
 
-drawClock();
+
 setInterval(() => {
     drawClock();
+}, 1000)
+setInterval(() => {
+    updateClock();
 }, 8000)
 
 

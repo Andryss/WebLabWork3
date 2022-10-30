@@ -1,4 +1,4 @@
-package model.converters;
+package view.checkers.converters;
 
 import javax.faces.convert.FacesConverter;
 

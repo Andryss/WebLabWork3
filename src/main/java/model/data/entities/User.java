@@ -11,7 +11,7 @@ public class User {
     @Id
     @Column(name = "user_id", unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @Column(name = "user_session_id", unique = true, nullable = false)
     private String sessionId;
@@ -28,7 +28,7 @@ public class User {
         histories = new TreeSet<>();
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 

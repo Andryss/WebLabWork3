@@ -22,8 +22,8 @@ public class UserHistoryDAOImpl implements UserHistoryDAO {
     @Override
     public User getUserById(String sessionId) {
         Session session = sessionFactory.openSession();
-        //User user = session.get(User.class, sessionId);
 
+        // Difficult code to get user by session id using STRANGE criteria API
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
         Root<User> userRoot = criteriaQuery.from(User.class);
@@ -36,9 +36,6 @@ public class UserHistoryDAOImpl implements UserHistoryDAO {
         } catch (NoResultException e) {
             return null;
         }
-
-        //session.close();
-        //return user;
     }
 
     @Override

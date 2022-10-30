@@ -1,5 +1,6 @@
 "use strict"
 
+// noinspection ES6UnusedImports
 import {
     validateNumberRadioField,
     validateNumberCheckboxField,
@@ -7,10 +8,14 @@ import {
 
     clearNumberRadioField,
     clearNumberTextField,
-    clearNumberCheckboxField
+    clearNumberCheckboxField,
+
+    makeListInvalid,
+    makeListValid
 }
     from "./validators.js";
 
+// noinspection ES6UnusedImports
 import {
     getRadioNumberValue,
     forcedGetRadioValue,
@@ -26,62 +31,190 @@ import {
 /**
  * @type {NodeListOf<HTMLInputElement>}
  */
-const xField = document.getElementsByName("submitForm:xSpinner_input"),
+let xField = document.getElementsByName("submitForm:xSpinner_input"),
     yField = document.getElementsByName("submitForm:yTextField"),
     rField = document.getElementsByName("submitForm:rCheckbox");
 
+/**
+ * @type {HTMLFormElement}
+ */
+let submitForm = document.getElementById("submitForm");
 
-initializeFields();
+/**
+ * @type {HTMLInputElement}
+ */
+let submitButton = document.getElementById("submitForm:submitButton");
+
+/**
+ * @type {HTMLTableElement}
+ */
+let historyTableContent = document.getElementById("historyTable_data");
+
+/**
+ * @type {HTMLCanvasElement}
+ */
+let canvas = document.getElementById("plotCanvas");
+
+/**
+ * @type {boolean}
+ */
+let xValid = false,
+    yValid = false,
+    rValid = false;
+
+// Main function
+setInterval(() => {
+    submitForm = document.getElementById("submitForm");
+    if (!submitForm.classList.contains("apply-all-listeners")) {
+        reinitializeVariables();
+        initializeFields();
+        initTable();
+        initCanvas();
+        submitForm.classList.add("apply-all-listeners")
+    }
+}, 100)
+// Main interval
+
+
+function reinitializeVariables() {
+    xField = document.getElementsByName("submitForm:xSpinner_input");
+    yField = document.getElementsByName("submitForm:yTextField");
+    rField = document.getElementsByName("submitForm:rCheckbox");
+    submitButton = document.getElementById("submitForm:submitButton");
+    historyTableContent = document.getElementById("historyTable_data");
+    canvas = document.getElementById("plotCanvas");
+}
 
 function initializeFields() {
     initializeXField();
     initializeYField();
     initializeRField();
+    setInterval(() => {
+        validateFields();
+    }, 1000)
 }
 
-setInterval(() => {
-    drawPlot();
-}, 100)
-
-
+function validateFields() {
+    validateXField();
+    validateYField();
+    validateRField();
+}
 
 function initializeXField() {
-    //clearXField();
+    xField.forEach(element => {
+        element.onchange = () => { validateXField() };
+    })
+}
+
+/**
+ * @return {boolean}
+ */
+function validateXField() {
+    xValid = validateNumberTextField(xField, -3, 3);
+    return xValid;
 }
 
 /**
  * @return {number|null}
  */
 function forcedGetX() {
-    return parseFloat(forcedGetTextValue(xField));
+    const xValue = parseFloat(forcedGetTextValue(xField));
+    if (!isNaN(xValue)) {
+        return xValue;
+    } else {
+        return null;
+    }
+}
+
+/**
+ * @param {string} value
+ */
+function forcedSetX(value) {
+    xField.forEach(element => {
+        element.value = value;
+    })
 }
 
 
 
 function initializeYField() {
-    //clearYField();
+    yField.forEach(element => {
+        element.onkeyup = () => { validateYField() };
+        element.onkeydown = () => { validateYField() };
+    })
 }
 
 /**
- * @return {number}
+ * @return {boolean}
+ */
+function validateYField() {
+    yValid = validateNumberTextField(yField, -5, 5);
+    return yValid;
+}
+
+/**
+ * @return {number|null}
  */
 function forcedGetY() {
-    return parseFloat(forcedGetTextValue(yField));
+    const yValue = parseFloat(forcedGetTextValue(yField));
+    if (!isNaN(yValue)) {
+        return yValue;
+    } else {
+        return null;
+    }
+}
+
+/**
+ * @param {string} value
+ */
+function forcedSetY(value) {
+    yField.forEach(element => {
+        element.value = value;
+    })
 }
 
 
 
 function initializeRField() {
-    // rField.forEach(value => {
-    //     value.onchange = (() => { drawPlotOnCanvas(forcedGetR()) })
-    // })
+    rField.forEach(value => {
+        value.onclick = (() => { drawPlotOnCanvas(validateAndGetRValueOrNull()) })
+    })
+}
+
+/**
+ * @return {null|number}
+ */
+function validateAndGetRValueOrNull() {
+    validateRField();
+    return getRValueOrNull();
+}
+
+/**
+ * @return {null|number}
+ */
+function getRValueOrNull() {
+    if (!rValid) return null;
+    return getCheckboxNumberValue(rField);
+}
+
+/**
+ * @return {boolean}
+ */
+function validateRField() {
+    rValid = validateNumberCheckboxField(rField);
+    return rValid;
 }
 
 /**
  * @return {number|null}
  */
 function forcedGetR() {
-    return parseFloat(forcedGetCheckboxValue(rField));
+    const rValue = parseFloat(forcedGetCheckboxValue(rField));
+    if (!isNaN(rValue)) {
+        return rValue;
+    } else {
+        return null;
+    }
 }
 
 
@@ -89,29 +222,21 @@ function forcedGetR() {
 /**
  * @type {HTMLTableRowElement|null}
  */
-let hoveringRow = null
+let hoveringRow = null;
 
-setInterval(() => {
-    const historyTableContent = document.getElementById("historyTable_data");
+function initTable() {
     for (let row of historyTableContent.rows) {
-        if (!row.classList.contains("apply-hover-listener")) {
-            row.onmouseenter = function () {
-                hoveringRow = row;
-                drawPlot();
-            }
-            row.onmouseleave = function () {
-                hoveringRow = null;
-                drawPlot();
-            }
-            row.classList.add("apply-hover-listener")
+        row.onmouseenter = () => {
+            hoveringRow = row;
+            drawPlot();
+        }
+        row.onmouseleave = () => {
+            hoveringRow = null;
+            drawPlot();
         }
     }
-}, 100)
+}
 
-/**
- * @type {HTMLCanvasElement}
- */
-const canvas = document.getElementById("plotCanvas");
 
 const {height, width} = canvas.getBoundingClientRect();
 if (width !== height) {
@@ -290,7 +415,6 @@ function drawPlotOnCanvas(rValue) {
                     rValueCell = parseFloat(row.cells[rCol].innerText),
                     resCell = row.cells[resCol].innerText.toLowerCase();
                 if (!isNaN(xValueCell) && !isNaN(yValueCell) && !isNaN(rValueCell)) {
-                    // TODO: understand color
                     ctx.fillStyle = (rValueCell === rValue) ? ((resCell.includes("not")) ? "orange" : "green") : "grey";
                     ctx.beginPath();
                     const pointScale = (row === hoveringRow) ? 1.5 : 1;
@@ -320,7 +444,7 @@ function drawPlotOnCanvas(rValue) {
  * @return {number}
  */
 function getXCoordinateOrConvert(xOffset) {
-    let xValue = forcedGetR();
+    let xValue = forcedGetX();
     if (xValue == null) xValue = convertXValueInCoordinate(xOffset);
     return xValue;
 }
@@ -351,25 +475,37 @@ function convertYValueInCoordinate(yOffset) {
     return - (yOffset - center) / unit;
 }
 
-setInterval(() => {
-    const canvas = document.getElementById("plotCanvas");
-    if (!canvas.classList.contains("apply-mouse-motion-listener")) {
-        // TODO: fix pointing
-        canvas.onmousemove = (event) => {
-            const bound = canvas.getBoundingClientRect();
-            setXPoint(getXCoordinateOrConvert(event.x - bound.x));
-            setYPoint(getYCoordinateOrConvert(event.y - bound.y));
-            drawPlot();
-        }
-
-        canvas.onmouseleave = () => {
-            setXPoint(null);
-            setYPoint(null);
-            drawPlot();
-        }
-        canvas.classList.add("apply-mouse-motion-listener");
+function initCanvas() {
+    canvas.onmousemove = (event) => {
+        const bound = canvas.getBoundingClientRect();
+        setXPoint(getXCoordinateOrConvert(event.x - bound.x));
+        setYPoint(getYCoordinateOrConvert(event.y - bound.y));
+        drawPlot();
     }
-}, 100)
+
+    canvas.onmouseleave = () => {
+        setXPoint(null);
+        setYPoint(null);
+        drawPlot();
+    }
+
+    canvas.onclick = () => {
+        const rValue = validateAndGetRValueOrNull();
+        if (rValue) {
+            forcedSetX((xPoint == null) ? "" : xPoint.toString());
+            forcedSetY((yPoint == null) ? "" : yPoint.toString());
+            document.getElementById("submitForm:submitButton").click();
+            setTimeout(() => {
+                drawPlot();
+            }, 500)
+        } else {
+            makeListValid(rField);
+            setTimeout(() => {
+                makeListInvalid(rField);
+            }, 200)
+        }
+    }
+}
 
 
 document.getElementById("cookieImage").onclick = () => {

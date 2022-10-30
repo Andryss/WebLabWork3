@@ -7,7 +7,7 @@
 /**
  * @type {RegExp}
  */
-const numberPattern = /^((-?[1-9]\d*(\.\d+)?)|(0(\.\d+)?)|(-0\.\d+))$/
+const numberPattern = /^((-?[1-9]\d*([,.]\d+)?)|(0([,.]\d+)?)|(-0[,.]\d+))$/
 
 
 /*
@@ -218,7 +218,7 @@ Util functions
  * @param {String} className
  */
 function parentElementAddClass(child, className) {
-    child.parentElement.classList.add(className)
+    child.parentElement.parentElement.classList.add(className)
 }
 
 /**
@@ -234,7 +234,7 @@ function parentElementAddClassList(childList, className) {
  * @param {String} className
  */
 function parentElementRemoveClass(child, className) {
-    child.parentElement.classList.remove(className);
+    child.parentElement.parentElement.classList.remove(className);
 }
 
 /**
@@ -287,5 +287,8 @@ export {
 
     clearNumberRadioField,
     clearNumberTextField,
-    clearNumberCheckboxField
+    clearNumberCheckboxField,
+
+    makeListInvalid,
+    makeListValid
 }

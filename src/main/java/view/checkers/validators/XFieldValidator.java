@@ -1,4 +1,4 @@
-package model.validators;
+package view.checkers.validators;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -13,13 +13,13 @@ public class XFieldValidator implements Validator {
     @Override
     public void validate(FacesContext facesContext, UIComponent uiComponent, Object o) throws ValidatorException {
         if (facesContext != null && uiComponent != null) {
-            if (o == null) throw new ValidatorException(new FacesMessage("error empty"));
+            if (o == null) throw new ValidatorException(new FacesMessage("field can't be blank"));
             try {
                 int converted = o instanceof Number ? ((Number)o).intValue() : Integer.parseInt(o.toString());
                 if (converted < -3 || converted > 3) {
-                    throw new ValidatorException(new FacesMessage("error wrong range"));
+                    throw new ValidatorException(new FacesMessage("x must be in range (-3...3)"));
                 }
-            } catch (NumberFormatException var6) {
+            } catch (NumberFormatException e) {
                 throw new ValidatorException(new FacesMessage("object isn't a number"));
             }
         } else {

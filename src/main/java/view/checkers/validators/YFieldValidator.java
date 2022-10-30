@@ -1,4 +1,4 @@
-package model.validators;
+package view.checkers.validators;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -13,11 +13,11 @@ public class YFieldValidator implements Validator {
     @Override
     public void validate(FacesContext facesContext, UIComponent uiComponent, Object o) throws ValidatorException {
         if (facesContext != null && uiComponent != null) {
-            if (o == null) throw new ValidatorException(new FacesMessage("error empty"));
+            if (o == null) throw new ValidatorException(new FacesMessage("field can't be blank"));
             try {
                 double converted = o instanceof Number ? ((Number)o).doubleValue() : Double.parseDouble(o.toString());
                 if (converted < -5 || converted > 5) {
-                    throw new ValidatorException(new FacesMessage("error wrong range"));
+                    throw new ValidatorException(new FacesMessage("y must be in range (-5...5)"));
                 }
             } catch (NumberFormatException var6) {
                 throw new ValidatorException(new FacesMessage("object isn't a number"));

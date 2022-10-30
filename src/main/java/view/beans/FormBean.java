@@ -1,4 +1,4 @@
-package beans;
+package view.beans;
 
 import model.HistoryManager;
 import model.Request;
@@ -16,41 +16,41 @@ import java.util.Set;
 @SessionScoped
 public class FormBean {
 
-    private int x;
-    public int getX() {
+    private Integer x;
+    public Integer getX() {
         return x;
     }
-    public void setX(int x) {
+    public void setX(Integer x) {
         this.x = x;
     }
 
-    private double y;
-    public double getY() {
+    private Double y;
+    public Double getY() {
         return y;
     }
-    public void setY(double y) {
+    public void setY(Double y) {
         this.y = y;
     }
 
-    private int r;
-    public int getR() {
+    private Integer r;
+    public Integer getR() {
         return r;
     }
-    public void setR(int r) {
+    public void setR(Integer r) {
         this.r = r;
     }
 
 
-    private int[] rCheckbox;
-    public int[] getRCheckbox() {
+    private Integer[] rCheckbox;
+    public Integer[] getRCheckbox() {
         return rCheckbox;
     }
-    public void setRCheckbox(int[] rCheckbox) {
+    public void setRCheckbox(Integer[] rCheckbox) {
         this.rCheckbox = rCheckbox;
     }
 
-    public int[] getRCheckBoxValues() {
-        return new int[]{1, 2, 3, 4, 5};
+    public Integer[] getRCheckBoxValues() {
+        return new Integer[]{1, 2, 3, 4, 5};
     }
 
 
@@ -74,8 +74,8 @@ public class FormBean {
     }
 
     private void clearForm() {
-        setX(0);
-        setY(0);
+        setX(null);
+        setY(null);
         setRCheckbox(null);
     }
 
