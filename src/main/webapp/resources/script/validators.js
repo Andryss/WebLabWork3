@@ -287,8 +287,5 @@ export {
 
     clearNumberRadioField,
     clearNumberTextField,
-    clearNumberCheckboxField,
-
-    makeListInvalid,
-    makeListValid
+    clearNumberCheckboxField
 }

@@ -8,10 +8,7 @@ import {
 
     clearNumberRadioField,
     clearNumberTextField,
-    clearNumberCheckboxField,
-
-    makeListInvalid,
-    makeListValid
+    clearNumberCheckboxField
 }
     from "./validators.js";
 
@@ -499,10 +496,10 @@ function initCanvas() {
                 drawPlot();
             }, 500)
         } else {
-            makeListValid(rField);
+            rField[0].parentElement.parentElement.classList.add("blink");
             setTimeout(() => {
-                makeListInvalid(rField);
-            }, 200)
+                rField[0].parentElement.parentElement.classList.remove("blink");
+            }, 50)
         }
     }
 }

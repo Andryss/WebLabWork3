@@ -133,6 +133,13 @@ input[type="checkbox"]:checked {
     background-color: grey;
 }
 
+.blink input[type="checkbox"] {
+    rotate: 360deg;
+    width: 30px;
+    height: 30px;
+    transition: 50ms;
+}
+
 
 
 /*

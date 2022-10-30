@@ -22,13 +22,17 @@
             <from-outcome>mainPage</from-outcome>
             <to-view-id>/main_page.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>easterEgg</from-outcome>
+            <to-view-id>/easter_egg_page.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
 
     <navigation-rule>
         <from-view-id>/easter_egg_page.xhtml</from-view-id>
         <navigation-case>
-            <from-outcome>mainPage</from-outcome>
-            <to-view-id>/main_page.xhtml</to-view-id>
+            <from-outcome>startPage</from-outcome>
+            <to-view-id>/start_page.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 
@@ -37,10 +41,6 @@
         <navigation-case>
             <from-outcome>startPage</from-outcome>
             <to-view-id>/start_page.xhtml</to-view-id>
-        </navigation-case>
-        <navigation-case>
-            <from-outcome>easterEgg</from-outcome>
-            <to-view-id>/easter_egg_page.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 
