@@ -2,12 +2,15 @@ package beans;
 
 import model.HistoryManager;
 import model.Request;
-import model.Response;
+import model.data.entities.History;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+import java.util.Set;
 
 @ManagedBean(name = "formBean")
 @SessionScoped
@@ -51,9 +54,9 @@ public class FormBean {
     }
 
 
-    private final Object session = FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+    private final String session = FacesContext.getCurrentInstance().getExternalContext().getSessionId(true);
 
-    public List<Response> getHistory() {
+    public Set<History> getHistory() {
         return HistoryManager.instance.getUserHistory(session);
     }
 
@@ -74,5 +77,11 @@ public class FormBean {
         setX(0);
         setY(0);
         setRCheckbox(null);
+    }
+
+    private static final DateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
+
+    public String getResponseTimeString(long responseTime) {
+        return formatter.format(responseTime);
     }
 }

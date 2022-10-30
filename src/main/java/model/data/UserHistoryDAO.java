@@ -1,0 +1,15 @@
+package model.data;
+
+import model.data.entities.History;
+import model.data.entities.User;
+
+public interface UserHistoryDAO {
+    User getUserById(String sessionId);
+    void saveUser(User user);
+    void deleteUser(User user);
+    void saveHistory(History history);
+    void deleteHistory(History history);
+    void clearTables();
+
+    UserHistoryDAO instance = new UserHistoryDAOImpl();
+}

@@ -1,10 +1,12 @@
 package model;
 
-import java.util.List;
+import model.data.entities.History;
+
+import java.util.SortedSet;
 
 public interface HistoryManager {
-    Response addUserRequest(Object user, Request request);
-    List<Response> getUserHistory(Object user);
+    void addUserRequest(String sessionId, Request request);
+    SortedSet<History> getUserHistory(String sessionId);
 
     HistoryManager instance = new HistoryManagerImpl();
 }

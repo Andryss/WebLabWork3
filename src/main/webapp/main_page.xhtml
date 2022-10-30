@@ -72,16 +72,17 @@
                 History
             </p>
             <p:dataTable id="historyTable" tableStyleClass="history-table"
-                         value="#{formBean.history}" var="resp">
+                         value="#{formBean.history}" var="resp" rowIndexVar="rowIndex">
 
                 <p:column styleClass="number-col">
                     <f:facet name="header">#</f:facet>
-                    <h:outputText value="#{formBean.history.indexOf(resp) + 1}"/>
+                    <!--@elvariable id="rowIndex" type="java.lang.Integer"-->
+                    <h:outputText value="#{rowIndex + 1}"/>
                 </p:column>
 
                 <p:column styleClass="time-col">
                     <f:facet name="header">Time</f:facet>
-                    <h:outputText value="#{resp.responseTimeString}"/>
+                    <h:outputText value="#{formBean.getResponseTimeString(resp.responseTime)}"/>
                 </p:column>
 
                 <p:column styleClass="exec-time-col">
