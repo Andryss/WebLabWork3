@@ -5,7 +5,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-<f:view>
+<f:view locale="#{formBean.locale}">
     <h:head>
         <title>Main page</title>
         <h:outputStylesheet id="main-style" library="style" name="main.css"/>
@@ -121,7 +121,7 @@
         <h:graphicImage id="cookieImage" library="picture" name="cookie.png"/>
 <!--        <h:outputScript id="main-script" library="script" name="main.js"/>-->
         <h:panelGroup id="scripts">
-            <script type="module" src="resources/script/main.js"></script>
+            <script type="module" src="../resources/script/main.js"></script>
         </h:panelGroup>
     </h:body>
 </f:view>

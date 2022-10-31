@@ -33,3 +33,8 @@ Cookie
     bottom: 5px;
     cursor: pointer;
 }
+
+#cookieImage:hover {
+    rotate: 360deg;
+    transition: 300ms;
+}

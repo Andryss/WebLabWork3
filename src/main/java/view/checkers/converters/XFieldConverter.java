@@ -10,6 +10,9 @@ import javax.faces.convert.IntegerConverter;
 @FacesConverter("xFieldConverter")
 public class XFieldConverter extends IntegerConverter {
 
+    protected final String notIntegerErrorString = "field must be integer";
+    protected final String someErrorString = "some error occur";
+
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent uiComponent, String s) {
         if (facesContext != null && uiComponent != null) {
@@ -19,9 +22,9 @@ public class XFieldConverter extends IntegerConverter {
             try {
                 return Integer.valueOf(s);
             } catch (NumberFormatException e) {
-                throw new ConverterException(new FacesMessage("field must be integer"));
+                throw new ConverterException(new FacesMessage(notIntegerErrorString));
             } catch (Exception e) {
-                throw new ConverterException(new FacesMessage("some error occur"));
+                throw new ConverterException(new FacesMessage(someErrorString));
             }
         } else {
             throw new NullPointerException();

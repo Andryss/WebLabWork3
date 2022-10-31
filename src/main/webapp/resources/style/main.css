@@ -128,6 +128,11 @@ input[type="checkbox"] {
     cursor: pointer;
 }
 
+input[type="checkbox"]:hover {
+    rotate: 360deg;
+    transition: 100ms;
+}
+
 input[type="checkbox"]:checked {
     border-color: black;
     background-color: grey;

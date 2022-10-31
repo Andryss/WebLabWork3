@@ -6,7 +6,7 @@
     <default-context-path>/</default-context-path>
     
     <welcome-file-list>
-        <welcome-file>welcome_page.xhtml</welcome-file>
+        <welcome-file>/facelets/welcome_page.xhtml</welcome-file>
     </welcome-file-list>
 
     <servlet>
@@ -19,5 +19,9 @@
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
+
+    <!--
+    ssh -L 8080:localhost:33880 s335155@helios.se.ifmo.ru -p 2222
+    -->
 
 </web-app>

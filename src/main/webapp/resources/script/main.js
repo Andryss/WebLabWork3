@@ -67,6 +67,7 @@ setInterval(() => {
         initializeFields();
         initTable();
         initCanvas();
+        drawPlot();
         submitForm.classList.add("apply-all-listeners")
     }
 }, 100)
@@ -491,10 +492,7 @@ function initCanvas() {
         if (rValue) {
             forcedSetX((xPoint == null) ? "" : xPoint.toString());
             forcedSetY((yPoint == null) ? "" : yPoint.toString());
-            document.getElementById("submitForm:submitButton").click();
-            setTimeout(() => {
-                drawPlot();
-            }, 500)
+            submitButton.click();
         } else {
             rField[0].parentElement.parentElement.classList.add("blink");
             setTimeout(() => {

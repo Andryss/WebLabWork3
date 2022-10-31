@@ -32,25 +32,19 @@ public class FormBean {
         this.y = y;
     }
 
-    private Integer r;
+    private Integer[] r;
     public Integer getR() {
+        return r[0];
+    }
+    public Integer[] getRCheckbox() {
         return r;
     }
-    public void setR(Integer r) {
-        this.r = r;
-    }
-
-
-    private Integer[] rCheckbox;
-    public Integer[] getRCheckbox() {
-        return rCheckbox;
-    }
     public void setRCheckbox(Integer[] rCheckbox) {
-        this.rCheckbox = rCheckbox;
+        this.r = rCheckbox;
     }
 
-    public Integer[] getRCheckBoxValues() {
-        return new Integer[]{1, 2, 3, 4, 5};
+    public String[] getRCheckBoxValues() {
+        return new String[]{"1", "2", "3", "4", "5"};
     }
 
 
@@ -61,15 +55,14 @@ public class FormBean {
     }
 
     public void processForm() {
-        if (rCheckbox != null && rCheckbox.length == 1) {
-            r = rCheckbox[0];
+        if (getX() != null && getY() != null && getR() != null) {
             processRequest();
             clearForm();
         }
     }
 
     private void processRequest() {
-        Request request = new Request(x, y, r);
+        Request request = new Request(getX(), getY(), getR());
         HistoryManager.instance.addUserRequest(session, request);
     }
 
@@ -80,8 +73,15 @@ public class FormBean {
     }
 
     private static final DateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
-
     public String getResponseTimeString(long responseTime) {
         return formatter.format(responseTime);
+    }
+
+    private final Locale locale = Locale.ENGLISH;
+    public Locale getLocale() {
+        return locale;
+    }
+    public String getLanguage() {
+        return locale.getLanguage();
     }
 }

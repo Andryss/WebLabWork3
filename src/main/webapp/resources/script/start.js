@@ -138,7 +138,7 @@ cookie.onclick = () => {
         alert("IT'S TEA TIME!");
         cookie.hidden = true; // Cookies also want tea
         setTimeout(() => {
-            window.location.href = "/easter_egg_page.xhtml";
+            window.location.href = "/facelets/easter_egg_page.xhtml";
         }, 2000)
     }
 }

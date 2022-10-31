@@ -11,7 +11,8 @@ import java.util.regex.Pattern;
 @FacesConverter("yFieldConverter")
 public class YFieldConverter extends DoubleConverter {
 
-    private static final Pattern xFieldPattern = Pattern.compile("^((-?[1-9]\\d*([.,]\\d+)?)|(0([.,]\\d+)?)|(-0[.,]\\d+))$");
+    protected final Pattern xFieldPattern = Pattern.compile("^((-?[1-9]\\d*([.,]\\d+)?)|(0([.,]\\d+)?)|(-0[.,]\\d+))$");
+    protected final String notDoubleErrorString = "field must be float";
 
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent uiComponent, String s) {
@@ -22,7 +23,7 @@ public class YFieldConverter extends DoubleConverter {
             if (xFieldPattern.matcher(s).find()) {
                 return Double.parseDouble(s.replace(',', '.'));
             } else {
-                throw new ConverterException(new FacesMessage("field must be float"));
+                throw new ConverterException(new FacesMessage(notDoubleErrorString));
             }
         } else {
             throw new NullPointerException();
