@@ -34,7 +34,15 @@ Cookie
     cursor: pointer;
 }
 
+/*
+Cookie wheel
+ */
 #cookieImage:hover {
-    rotate: 360deg;
-    transition: 300ms;
+    rotate: 1440deg;
+    transition: 2s;
+}
+
+#cookieImage {
+    rotate: 0deg;
+    transition: 2s;
 }

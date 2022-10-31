@@ -139,9 +139,9 @@ input[type="checkbox"]:checked {
 }
 
 .blink input[type="checkbox"] {
-    rotate: 360deg;
-    width: 30px;
+    background-color: red;
     height: 30px;
+    width: 30px;
     transition: 50ms;
 }
 

@@ -473,6 +473,8 @@ function convertYValueInCoordinate(yOffset) {
     return - (yOffset - center) / unit;
 }
 
+const rNotSetSound = new Audio("/resources/audio/steve_hurt_sound.mp3");
+
 function initCanvas() {
     canvas.onmousemove = (event) => {
         const bound = canvas.getBoundingClientRect();
@@ -494,10 +496,14 @@ function initCanvas() {
             forcedSetY((yPoint == null) ? "" : yPoint.toString());
             submitButton.click();
         } else {
-            rField[0].parentElement.parentElement.classList.add("blink");
-            setTimeout(() => {
-                rField[0].parentElement.parentElement.classList.remove("blink");
-            }, 50)
+            rNotSetSound.pause();
+            rNotSetSound.currentTime = 0;
+            rNotSetSound.play().then(() => {
+                rField[0].parentElement.parentElement.classList.add("blink");
+                setTimeout(() => {
+                    rField[0].parentElement.parentElement.classList.remove("blink");
+                }, 50)
+            });
         }
     }
 }
