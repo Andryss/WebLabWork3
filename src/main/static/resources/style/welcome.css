@@ -25,6 +25,17 @@ label.game-name {
 
 
 /*
+Language changer
+ */
+.language-changer {
+    position: fixed;
+    left: 10px;
+    bottom: 10px;
+}
+
+
+
+/*
 Cookie
  */
 #cookieImage {

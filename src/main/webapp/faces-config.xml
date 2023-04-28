@@ -44,4 +44,15 @@
         </navigation-case>
     </navigation-rule>
 
+    <application>
+        <locale-config>
+            <default-locale>en</default-locale>
+            <supported-locale>ru</supported-locale>
+        </locale-config>
+        <resource-bundle>
+            <base-name>i18n.messages</base-name>
+            <var>messages</var>
+        </resource-bundle>
+    </application>
+
 </faces-config>

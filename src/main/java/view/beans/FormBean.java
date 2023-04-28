@@ -76,12 +76,4 @@ public class FormBean {
     public String getResponseTimeString(long responseTime) {
         return formatter.format(responseTime);
     }
-
-    private final Locale locale = Locale.ENGLISH;
-    public Locale getLocale() {
-        return locale;
-    }
-    public String getLanguage() {
-        return locale.getLanguage();
-    }
 }
