@@ -6,8 +6,8 @@ import org.junit.Test;
 import java.util.Iterator;
 import java.util.SortedSet;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
 
 public class HistoryManagerTest {
 
@@ -32,21 +32,21 @@ public class HistoryManagerTest {
 
         Iterator<History> historyIterator = userHistory.iterator();
 
-        assertTrue(historyIterator.hasNext());
+        assertThat(historyIterator.hasNext(), is(true));
         isEqual(historyIterator.next(), request3);
 
-        assertTrue(historyIterator.hasNext());
+        assertThat(historyIterator.hasNext(), is(true));
         isEqual(historyIterator.next(), request2);
 
-        assertTrue(historyIterator.hasNext());
+        assertThat(historyIterator.hasNext(), is(true));
         isEqual(historyIterator.next(), request1);
 
-        assertFalse(historyIterator.hasNext());
+        assertThat(historyIterator.hasNext(), is(false));
     }
 
     private void isEqual(History history, Request request) {
-        assertEquals(history.getX(), request.getX(), 1e-5);
-        assertEquals(history.getY(), request.getY(), 1e-5);
-        assertEquals(history.getR(), request.getR(), 1e-5);
+        assertThat(history.getX(), is(request.getX()));
+        assertThat(history.getY(), is(request.getY()));
+        assertThat(history.getR(), is(request.getR()));
     }
 }
