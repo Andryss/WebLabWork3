@@ -28,7 +28,7 @@ public class HistoryManagerTest {
         SortedSet<History> userHistory = historyManager.getUserHistory(sessionId);
         assertNotNull(userHistory);
 
-        assertThat(userHistory.size(), is(3));
+        assertEquals(userHistory.size(), 3);
 
         Iterator<History> historyIterator = userHistory.iterator();
 
