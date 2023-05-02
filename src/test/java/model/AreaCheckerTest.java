@@ -6,9 +6,10 @@ import static org.junit.Assert.*;
 
 public class AreaCheckerTest {
 
+    AreaChecker checker = AreaChecker.instance;
+
     @Test
     public void testCheck() {
-        AreaChecker checker = AreaChecker.instance;
 
         for (double r = 0.5; r < 10; r += 0.5) {
             // Out of the area

@@ -35,6 +35,8 @@ public class UserHistoryDAOImpl implements UserHistoryDAO {
             ).getSingleResult();
         } catch (NoResultException e) {
             return null;
+        } finally {
+            session.close();
         }
     }
 

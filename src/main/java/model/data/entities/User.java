@@ -16,7 +16,7 @@ public class User {
     @Column(name = "user_session_id", unique = true, nullable = false)
     private String sessionId;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @OrderBy(value = "responseTime ASC")
     private SortedSet<History> histories;
 

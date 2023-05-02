@@ -28,7 +28,7 @@ public class History implements Comparable<History> {
     @Column(name = "result", nullable = false)
     private boolean result;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 
