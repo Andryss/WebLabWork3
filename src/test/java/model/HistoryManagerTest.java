@@ -28,25 +28,25 @@ public class HistoryManagerTest {
         SortedSet<History> userHistory = historyManager.getUserHistory(sessionId);
         assertNotNull(userHistory);
 
-        assertThat(userHistory.size(), is(3));
+        assertEquals(userHistory.size(), 3);
 
         Iterator<History> historyIterator = userHistory.iterator();
 
-        assertThat(historyIterator.hasNext(), is(true));
+        assertTrue(historyIterator.hasNext());
         isEqual(historyIterator.next(), request3);
 
-        assertThat(historyIterator.hasNext(), is(true));
+        assertTrue(historyIterator.hasNext());
         isEqual(historyIterator.next(), request2);
 
-        assertThat(historyIterator.hasNext(), is(true));
+        assertTrue(historyIterator.hasNext());
         isEqual(historyIterator.next(), request1);
 
-        assertThat(historyIterator.hasNext(), is(false));
+        assertFalse(historyIterator.hasNext());
     }
 
     private void isEqual(History history, Request request) {
-        assertThat(history.getX(), is(request.getX()));
-        assertThat(history.getY(), is(request.getY()));
-        assertThat(history.getR(), is(request.getR()));
+        assertEquals(history.getX(), request.getX(), 1e-5);
+        assertEquals(history.getY(), request.getY(), 1e-5);
+        assertEquals(history.getR(), request.getR(), 1e-5);
     }
 }
