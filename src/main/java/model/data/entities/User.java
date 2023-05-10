@@ -36,6 +36,10 @@ public class User {
         return sessionId;
     }
 
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
     public SortedSet<History> getHistories() {
         return histories;
     }

@@ -1,17 +1,25 @@
 package model;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class AreaCheckerTest {
 
-    AreaChecker checker = AreaChecker.instance;
+    static AreaChecker checker;
+
+    @BeforeClass
+    public static void setUp() {
+        checker = AreaChecker.instance;
+    }
 
     @Test
-    public void testCheck() {
+    public void whenRadiusIncrease_thenFigureScale() {
 
         for (double r = 0.5; r < 10; r += 0.5) {
+            System.out.println("Test radius " + r);
+
             // Out of the area
             assertFalse(checker.check(new Request(0.1 * r, 0.1 * r, r)));
             assertFalse(checker.check(new Request(-0.5 * r, -0.5 * r, r)));
