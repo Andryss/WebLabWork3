@@ -14,15 +14,18 @@ Main styles
 /*
 Table styles
  */
-.history-table {
+.history-table,
+.statistics-table {
     width: 100%;
 }
 
-.history-table thead {
+.history-table thead,
+.statistics-table thead {
     background-color: #18dcd9;
 }
 
-.history-table td {
+.history-table td,
+.statistics-table td {
     text-align: center;
 }
 
@@ -155,5 +158,11 @@ label.positive-result {
 }
 
 label.negative-result {
+    color: red;
+}
+
+.notification {
+    position: absolute;
+    margin-left: 20px;
     color: red;
 }

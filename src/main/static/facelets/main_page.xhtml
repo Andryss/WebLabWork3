@@ -60,12 +60,55 @@
                     <!-- верстка комментариями -->
                     <h:commandButton id="submitButton" value="I'm lucky" type="submit"
                                      action="#{formBean.processForm}">
-                        <f:ajax execute="submitForm" render="submitForm historyTable"/>
+                        <f:ajax execute="submitForm" render="submitForm historyTable statisticsTable"/>
                     </h:commandButton>
                     <!-- верстка комментариями -->
 
                 </h:panelGrid>
             </h:form>
+        </h:panelGroup>
+        <h:panelGroup id="statisticsTable" layout="block" styleClass="outer">
+            <p>
+                Statistics
+                <h:outputLabel rendered="#{notificationBean.hasMissesNotification()}" value="Two misses in a row" styleClass="notification"/>
+            </p>
+            <p:panelGrid styleClass="statistics-table">
+
+                <f:facet name = "header">
+                    <p:row>
+                        <p:column>All</p:column>
+                        <p:column>Misses</p:column>
+                        <p:column>Misses percent</p:column>
+                        <p:column>Hits</p:column>
+                        <p:column>Hits percent</p:column>
+                    </p:row>
+                </f:facet>
+
+                <p:row>
+                    <p:column>
+                        <h:outputText value="#{statisticsBean.allCount}"/>
+                    </p:column>
+
+                    <p:column>
+                        <h:outputText value="#{statisticsBean.missesCount}"/>
+                    </p:column>
+
+                    <p:column>
+                        <h:outputText value="#{statisticsBean.toPercentString(statisticsBean.missesPercentage)}"/>
+                    </p:column>
+
+                    <p:column>
+                        <h:outputText value="#{statisticsBean.hitCount}"/>
+                    </p:column>
+
+                    <p:column>
+                        <h:outputText value="#{statisticsBean.toPercentString(statisticsBean.hitPercentage)}"/>
+                    </p:column>
+                </p:row>
+
+            </p:panelGrid>
+
+
         </h:panelGroup>
         <h:panelGroup layout="block" styleClass="outer">
             <p>

@@ -26,12 +26,20 @@ public class HistoryManagerImpl implements HistoryManager {
         this.areaChecker = areaChecker;
     }
 
+    @ManagedProperty("#{countManager}")
+    private CountManager countManager;
+    public void setCountManager(CountManager countManager) {
+        this.countManager = countManager;
+    }
+
     @Override
     public void addUserRequest(String sessionId, Request request) {
         User user = getUserById(sessionId);
         History newHistory = createResponse(request);
         newHistory.setUser(user);
         dao.saveHistory(newHistory);
+
+        countManager.addUserHistory(sessionId, newHistory);
 
         user = dao.getUserById(sessionId);
         SortedSet<History> history = user.getHistories();
