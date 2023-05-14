@@ -1,5 +1,10 @@
 package model;
 
+import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
+
+@ManagedBean(name = "areaChecker")
+@ApplicationScoped
 public class AreaCheckerImpl implements AreaChecker {
     @Override
     public boolean check(Request request) {

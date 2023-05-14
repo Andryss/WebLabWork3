@@ -4,13 +4,27 @@ import model.data.UserHistoryDAO;
 import model.data.entities.History;
 import model.data.entities.User;
 
-import java.util.*;
+import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import java.util.SortedSet;
 
+@ManagedBean(name = "historyManager")
+@ApplicationScoped
 public class HistoryManagerImpl implements HistoryManager {
     private static final int maxUserLength = 10;
 
-    private final UserHistoryDAO dao = UserHistoryDAO.instance;
+    @ManagedProperty("#{userHistoryDAO}")
+    private UserHistoryDAO dao;
+    public void setDao(UserHistoryDAO dao) {
+        this.dao = dao;
+    }
 
+    @ManagedProperty("#{areaChecker}")
+    private AreaChecker areaChecker;
+    public void setAreaChecker(AreaChecker areaChecker) {
+        this.areaChecker = areaChecker;
+    }
 
     @Override
     public void addUserRequest(String sessionId, Request request) {
@@ -30,7 +44,7 @@ public class HistoryManagerImpl implements HistoryManager {
 
     private History createResponse(Request request) {
         long startTime = System.currentTimeMillis();
-        boolean result = AreaChecker.instance.check(request);
+        boolean result = areaChecker.check(request);
         long finishTime = System.currentTimeMillis();
         return new History(
                 startTime,

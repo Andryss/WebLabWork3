@@ -6,16 +6,30 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+@ManagedBean(name = "userHistoryDAO")
+@ApplicationScoped
 public class UserHistoryDAOImpl implements UserHistoryDAO {
 
-    private final SessionFactory sessionFactory = HibernateSessionFactoryUtil.instance.getSessionFactory();
+    @ManagedProperty("#{hibernateSessionFactoryUtil}")
+    private HibernateSessionFactoryUtil sessionFactoryUtil;
+    public void setSessionFactoryUtil(HibernateSessionFactoryUtil sessionFactoryUtil) {
+        this.sessionFactoryUtil = sessionFactoryUtil;
+    }
 
-    {
+    private SessionFactory sessionFactory;
+
+    @PostConstruct
+    public void init() {
+        sessionFactory = sessionFactoryUtil.getSessionFactory();
         clearTables();
     }
 
@@ -45,15 +59,6 @@ public class UserHistoryDAOImpl implements UserHistoryDAO {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.save(user);
-        transaction.commit();
-        session.close();
-    }
-
-    @Override
-    public void deleteUser(User user) {
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        session.delete(user);
         transaction.commit();
         session.close();
     }
