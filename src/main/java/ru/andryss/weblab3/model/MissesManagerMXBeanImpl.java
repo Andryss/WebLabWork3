@@ -1,6 +1,6 @@
 package ru.andryss.weblab3.model;
 
-import lombok.Data;
+import lombok.Setter;
 import ru.andryss.weblab3.model.util.MBeanManager;
 
 import javax.annotation.PostConstruct;
@@ -11,16 +11,20 @@ import javax.faces.bean.ManagedProperty;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-
-@Data
 
 @ManagedBean(name = "missesManager")
 @ApplicationScoped
 public class MissesManagerMXBeanImpl implements MissesManagerMXBean {
 
+    @Setter
     @ManagedProperty("#{beanManager}")
     private MBeanManager beanManager;
+
+    private static final LinkedList<Boolean> EMPTY_HISTORY = new LinkedList<>();
+
+    private final Map<String, LinkedList<Boolean>> historyMap = new ConcurrentHashMap<>();
 
     @PostConstruct
     public void init() {
@@ -32,9 +36,10 @@ public class MissesManagerMXBeanImpl implements MissesManagerMXBean {
         beanManager.unregisterMBean(this);
     }
 
-
-    private final Map<String, LinkedList<Boolean>> historyMap = new ConcurrentHashMap<>();
-    private static final LinkedList<Boolean> EMPTY_HISTORY = new LinkedList<>();
+    @Override
+    public Set<String> getSessions() {
+        return historyMap.keySet();
+    }
 
     @Override
     public void addUserResult(String sessionId, boolean result) {

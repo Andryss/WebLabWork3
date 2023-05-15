@@ -3,6 +3,7 @@ package ru.andryss.weblab3.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import ru.andryss.weblab3.model.util.MBeanManager;
 
 import javax.annotation.PostConstruct;
@@ -11,27 +12,16 @@ import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-
-@Data
 
 @ManagedBean(name = "countManager")
 @ApplicationScoped
 public class CountManagerMXBeanImpl implements CountManagerMXBean {
 
+    @Setter
     @ManagedProperty("#{beanManager}")
     private MBeanManager beanManager;
-
-    @PostConstruct
-    public void init() {
-        beanManager.registerMBean("counter", this);
-    }
-
-    @PreDestroy
-    public void destroy() {
-        beanManager.unregisterMBean(this);
-    }
-
 
     @Data
     @NoArgsConstructor
@@ -45,6 +35,21 @@ public class CountManagerMXBeanImpl implements CountManagerMXBean {
     private static final SessionInfo EMPTY_INFO = new SessionInfo();
 
     private final Map<String, SessionInfo> sessionInfoMap = new ConcurrentHashMap<>();
+
+    @PostConstruct
+    public void init() {
+        beanManager.registerMBean("counter", this);
+    }
+
+    @PreDestroy
+    public void destroy() {
+        beanManager.unregisterMBean(this);
+    }
+
+    @Override
+    public Set<String> getSessions() {
+        return sessionInfoMap.keySet();
+    }
 
     @Override
     public void addUserResult(String sessionId, boolean result) {
