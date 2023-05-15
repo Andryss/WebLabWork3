@@ -1,6 +1,13 @@
 package model.data.entities;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
+
+@Data
+@NoArgsConstructor
 
 @Entity
 @Table(name = "histories")
@@ -28,12 +35,10 @@ public class History implements Comparable<History> {
     @Column(name = "result", nullable = false)
     private boolean result;
 
+    @EqualsAndHashCode.Exclude
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
-
-    public History() {
-    }
 
     public History(long responseTime, long executionTime, double x, double y, double r, boolean result) {
         this.responseTime = responseTime;
@@ -42,42 +47,6 @@ public class History implements Comparable<History> {
         this.y = y;
         this.r = r;
         this.result = result;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public long getResponseTime() {
-        return responseTime;
-    }
-
-    public long getExecutionTime() {
-        return executionTime;
-    }
-
-    public double getX() {
-        return x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public double getR() {
-        return r;
-    }
-
-    public boolean isResult() {
-        return result;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     @Override

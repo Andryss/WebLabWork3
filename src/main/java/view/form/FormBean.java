@@ -1,5 +1,6 @@
 package view.form;
 
+import lombok.Setter;
 import model.HistoryManager;
 import model.Request;
 import model.data.entities.History;
@@ -49,11 +50,9 @@ public class FormBean {
     }
 
 
+    @Setter
     @ManagedProperty("#{historyManager}")
     private HistoryManager historyManager;
-    public void setHistoryManager(HistoryManager historyManager) {
-        this.historyManager = historyManager;
-    }
 
 
     private final String session = FacesContext.getCurrentInstance().getExternalContext().getSessionId(true);

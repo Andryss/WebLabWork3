@@ -1,5 +1,6 @@
 package view.form;
 
+import lombok.Setter;
 import model.MissesManagerMXBean;
 
 import javax.faces.bean.ManagedBean;
@@ -11,11 +12,9 @@ import javax.faces.context.FacesContext;
 @SessionScoped
 public class NotificationBean {
 
+    @Setter
     @ManagedProperty("#{missesManager}")
     private MissesManagerMXBean missesManagerMXBean;
-    public void setMissesManagerMXBean(MissesManagerMXBean missesManagerMXBean) {
-        this.missesManagerMXBean = missesManagerMXBean;
-    }
 
     private final String session = FacesContext.getCurrentInstance().getExternalContext().getSessionId(true);
 

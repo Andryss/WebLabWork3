@@ -7,7 +7,7 @@ import java.lang.management.ManagementFactory;
 import java.util.HashMap;
 import java.util.Map;
 
-@ManagedBean(name = "mBeanManager")
+@ManagedBean(name = "beanManager")
 @ApplicationScoped
 public class MBeanManagerImpl implements MBeanManager {
 

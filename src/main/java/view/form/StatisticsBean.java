@@ -1,5 +1,6 @@
 package view.form;
 
+import lombok.Setter;
 import model.CountManagerMXBean;
 
 import javax.faces.bean.ManagedBean;
@@ -11,11 +12,9 @@ import javax.faces.context.FacesContext;
 @SessionScoped
 public class StatisticsBean {
 
+    @Setter
     @ManagedProperty("#{countManager}")
     private CountManagerMXBean countManagerMXBean;
-    public void setCountManagerMXBean(CountManagerMXBean countManagerMXBean) {
-        this.countManagerMXBean = countManagerMXBean;
-    }
 
     private final String session = FacesContext.getCurrentInstance().getExternalContext().getSessionId(true);
 

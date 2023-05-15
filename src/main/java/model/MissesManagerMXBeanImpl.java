@@ -1,5 +1,6 @@
 package model;
 
+import lombok.Data;
 import model.util.MBeanManager;
 
 import javax.annotation.PostConstruct;
@@ -12,16 +13,28 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Data
+
 @ManagedBean(name = "missesManager")
 @ApplicationScoped
 public class MissesManagerMXBeanImpl implements MissesManagerMXBean {
 
+    @ManagedProperty("#{beanManager}")
+    private MBeanManager beanManager;
+
+    @PostConstruct
+    public void init() {
+        beanManager.registerMBean("misser", this);
+    }
+
+    @PreDestroy
+    public void destroy() {
+        beanManager.unregisterMBean(this);
+    }
+
+
     private final Map<String, LinkedList<Boolean>> historyMap = new ConcurrentHashMap<>();
     private static final LinkedList<Boolean> EMPTY_HISTORY = new LinkedList<>();
-
-    public Map<String, LinkedList<Boolean>> getHistoryMap() {
-        return historyMap;
-    }
 
     @Override
     public void addUserResult(String sessionId, boolean result) {
@@ -36,22 +49,5 @@ public class MissesManagerMXBeanImpl implements MissesManagerMXBean {
         if (histories.size() < 2) return false;
         Iterator<Boolean> iterator = histories.descendingIterator();
         return !iterator.next() && !iterator.next();
-    }
-
-
-    @ManagedProperty("#{mBeanManager}")
-    private MBeanManager mBeanManager;
-    public void setmBeanManager(MBeanManager mBeanManager) {
-        this.mBeanManager = mBeanManager;
-    }
-
-    @PostConstruct
-    public void init() {
-        mBeanManager.registerMBean("misser", this);
-    }
-
-    @PreDestroy
-    public void destroy() {
-        mBeanManager.unregisterMBean(this);
     }
 }

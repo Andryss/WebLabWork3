@@ -1,5 +1,6 @@
 package model;
 
+import lombok.Data;
 import model.data.UserHistoryDAO;
 import model.data.entities.History;
 import model.data.entities.User;
@@ -9,6 +10,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import java.util.SortedSet;
 
+@Data
+
 @ManagedBean(name = "historyManager")
 @ApplicationScoped
 public class HistoryManagerImpl implements HistoryManager {
@@ -16,27 +19,15 @@ public class HistoryManagerImpl implements HistoryManager {
 
     @ManagedProperty("#{userHistoryDAO}")
     private UserHistoryDAO dao;
-    public void setDao(UserHistoryDAO dao) {
-        this.dao = dao;
-    }
 
     @ManagedProperty("#{areaChecker}")
     private AreaChecker areaChecker;
-    public void setAreaChecker(AreaChecker areaChecker) {
-        this.areaChecker = areaChecker;
-    }
 
     @ManagedProperty("#{countManager}")
     private CountManagerMXBean countManagerMXBean;
-    public void setCountManagerMXBean(CountManagerMXBean countManagerMXBean) {
-        this.countManagerMXBean = countManagerMXBean;
-    }
 
     @ManagedProperty("#{missesManager}")
     private MissesManagerMXBean missesManagerMXBean;
-    public void setMissesManagerMXBean(MissesManagerMXBean missesManagerMXBean) {
-        this.missesManagerMXBean = missesManagerMXBean;
-    }
 
     @Override
     public void addUserRequest(String sessionId, Request request) {

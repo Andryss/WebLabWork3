@@ -1,5 +1,6 @@
 package model.data;
 
+import lombok.Setter;
 import model.data.entities.History;
 import model.data.entities.User;
 import org.hibernate.Session;
@@ -19,11 +20,9 @@ import javax.persistence.criteria.Root;
 @ApplicationScoped
 public class UserHistoryDAOImpl implements UserHistoryDAO {
 
+    @Setter
     @ManagedProperty("#{hibernateSessionFactoryUtil}")
     private HibernateSessionFactoryUtil sessionFactoryUtil;
-    public void setSessionFactoryUtil(HibernateSessionFactoryUtil sessionFactoryUtil) {
-        this.sessionFactoryUtil = sessionFactoryUtil;
-    }
 
     private SessionFactory sessionFactory;
 
