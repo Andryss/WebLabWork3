@@ -8,6 +8,10 @@ import javax.annotation.PreDestroy;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.management.AttributeChangeNotification;
+import javax.management.MBeanNotificationInfo;
+import javax.management.Notification;
+import javax.management.NotificationBroadcasterSupport;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
@@ -16,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @ManagedBean(name = "missesManager")
 @ApplicationScoped
-public class MissesManagerMXBeanImpl implements MissesManagerMXBean {
+public class MissesManagerMXBeanImpl extends NotificationBroadcasterSupport implements MissesManagerMXBean {
 
     @Setter
     @ManagedProperty("#{beanManager}")
@@ -44,6 +48,16 @@ public class MissesManagerMXBeanImpl implements MissesManagerMXBean {
     @Override
     public void addUserResult(String sessionId, boolean result) {
         LinkedList<Boolean> histories = historyMap.computeIfAbsent(sessionId, s -> new LinkedList<>());
+
+        if (!result && histories.size() > 0 && !histories.getLast()) {
+            sendNotification(new Notification(
+                    "Misses alert",
+                    getClass().getSimpleName(),
+                    sequenceNumber++,
+                    String.format("User %s has two misses in a row", sessionId)
+            ));
+        }
+
         histories.addLast(result);
         while (histories.size() > 2) histories.removeFirst();
     }
@@ -55,4 +69,6 @@ public class MissesManagerMXBeanImpl implements MissesManagerMXBean {
         Iterator<Boolean> iterator = histories.descendingIterator();
         return !iterator.next() && !iterator.next();
     }
+
+    private long sequenceNumber = 1;
 }
