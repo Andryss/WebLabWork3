@@ -48,26 +48,4 @@ public class CountManagerImpl implements CountManager {
     public long getHitCount(String sessionId) {
         return sessionInfoMap.getOrDefault(sessionId, EMPTY_INFO).hitCount;
     }
-
-    @Override
-    public boolean hasTwoMissesInARow(String sessionId) {
-        LinkedList<History> histories = sessionInfoMap.getOrDefault(sessionId, EMPTY_INFO).lastAdded;
-        if (histories.size() < 2) return false;
-        Iterator<History> iterator = histories.descendingIterator();
-        return !iterator.next().isResult() && !iterator.next().isResult();
-    }
-
-    @Override
-    public double getMissesPercentage(String sessionId) {
-        SessionInfo sessionInfo = sessionInfoMap.getOrDefault(sessionId, EMPTY_INFO);
-        if (sessionInfo.allCount == 0) return 0.0;
-        return (double) sessionInfo.missCount / sessionInfo.allCount;
-    }
-
-    @Override
-    public double getHitPercentage(String sessionId) {
-        SessionInfo sessionInfo = sessionInfoMap.getOrDefault(sessionId, EMPTY_INFO);
-        if (sessionInfo.allCount == 0) return 0.0;
-        return (double) sessionInfo.hitCount / sessionInfo.allCount;
-    }
 }

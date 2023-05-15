@@ -32,6 +32,12 @@ public class HistoryManagerImpl implements HistoryManager {
         this.countManager = countManager;
     }
 
+    @ManagedProperty("#{missesManager}")
+    private MissesManager missesManager;
+    public void setMissesManager(MissesManager missesManager) {
+        this.missesManager = missesManager;
+    }
+
     @Override
     public void addUserRequest(String sessionId, Request request) {
         User user = getUserById(sessionId);
@@ -40,6 +46,7 @@ public class HistoryManagerImpl implements HistoryManager {
         dao.saveHistory(newHistory);
 
         countManager.addUserHistory(sessionId, newHistory);
+        missesManager.addUserHistory(sessionId, newHistory);
 
         user = dao.getUserById(sessionId);
         SortedSet<History> history = user.getHistories();

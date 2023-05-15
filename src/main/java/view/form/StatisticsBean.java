@@ -32,11 +32,11 @@ public class StatisticsBean {
     }
 
     public double getMissesPercentage() {
-        return countManager.getMissesPercentage(session);
+        return (double) getMissesCount() / getAllCount();
     }
 
     public double getHitPercentage() {
-        return countManager.getHitPercentage(session);
+        return (double) getHitCount() / getHitCount();
     }
 
     public String toPercentString(double value) {

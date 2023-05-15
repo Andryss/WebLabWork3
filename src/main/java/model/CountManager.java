@@ -7,8 +7,4 @@ public interface CountManager {
     long getAllCount(String sessionId);
     long getMissedCount(String sessionId);
     long getHitCount(String sessionId);
-
-    boolean hasTwoMissesInARow(String sessionId);
-    double getMissesPercentage(String sessionId);
-    double getHitPercentage(String sessionId);
 }

@@ -1,6 +1,7 @@
 package view.form;
 
 import model.CountManager;
+import model.MissesManager;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -11,15 +12,15 @@ import javax.faces.context.FacesContext;
 @SessionScoped
 public class NotificationBean {
 
-    @ManagedProperty("#{countManager}")
-    private CountManager countManager;
-    public void setCountManager(CountManager countManager) {
-        this.countManager = countManager;
+    @ManagedProperty("#{missesManager}")
+    private MissesManager missesManager;
+    public void setMissesManager(MissesManager missesManager) {
+        this.missesManager = missesManager;
     }
 
     private final String session = FacesContext.getCurrentInstance().getExternalContext().getSessionId(true);
 
     public boolean hasMissesNotification() {
-        return countManager.hasTwoMissesInARow(session);
+        return missesManager.hasTwoMissesInARow(session);
     }
 }
