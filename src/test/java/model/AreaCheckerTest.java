@@ -3,8 +3,8 @@ package model;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import javax.faces.context.FacesContext;
+import ru.andryss.weblab3.model.AreaChecker;
+import ru.andryss.weblab3.model.Request;
 
 import static org.junit.Assert.*;
 

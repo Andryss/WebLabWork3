@@ -1,6 +1,7 @@
 package model.data;
 
-import model.data.entities.User;
+import ru.andryss.weblab3.model.data.HibernateSessionFactoryUtilImpl;
+import ru.andryss.weblab3.model.data.entities.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.*;

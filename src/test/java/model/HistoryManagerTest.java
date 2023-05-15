@@ -1,6 +1,8 @@
 package model;
 
-import model.data.entities.History;
+import ru.andryss.weblab3.model.HistoryManager;
+import ru.andryss.weblab3.model.Request;
+import ru.andryss.weblab3.model.data.entities.History;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
