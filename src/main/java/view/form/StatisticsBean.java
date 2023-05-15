@@ -1,6 +1,6 @@
 package view.form;
 
-import model.CountManager;
+import model.CountManagerMXBean;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -12,31 +12,35 @@ import javax.faces.context.FacesContext;
 public class StatisticsBean {
 
     @ManagedProperty("#{countManager}")
-    private CountManager countManager;
-    public void setCountManager(CountManager countManager) {
-        this.countManager = countManager;
+    private CountManagerMXBean countManagerMXBean;
+    public void setCountManagerMXBean(CountManagerMXBean countManagerMXBean) {
+        this.countManagerMXBean = countManagerMXBean;
     }
 
     private final String session = FacesContext.getCurrentInstance().getExternalContext().getSessionId(true);
 
     public long getAllCount() {
-        return countManager.getAllCount(session);
+        return countManagerMXBean.getAllCount(session);
     }
 
     public long getMissesCount() {
-        return countManager.getMissedCount(session);
+        return countManagerMXBean.getMissedCount(session);
     }
 
     public long getHitCount() {
-        return countManager.getHitCount(session);
+        return countManagerMXBean.getHitCount(session);
     }
 
     public double getMissesPercentage() {
-        return (double) getMissesCount() / getAllCount();
+        long allCount = getAllCount();
+        if (allCount == 0) return 0.0;
+        return (double) getMissesCount() / allCount;
     }
 
     public double getHitPercentage() {
-        return (double) getHitCount() / getHitCount();
+        long allCount = getAllCount();
+        if (allCount == 0) return 0.0;
+        return (double) getHitCount() / allCount;
     }
 
     public String toPercentString(double value) {

@@ -27,15 +27,15 @@ public class HistoryManagerImpl implements HistoryManager {
     }
 
     @ManagedProperty("#{countManager}")
-    private CountManager countManager;
-    public void setCountManager(CountManager countManager) {
-        this.countManager = countManager;
+    private CountManagerMXBean countManagerMXBean;
+    public void setCountManagerMXBean(CountManagerMXBean countManagerMXBean) {
+        this.countManagerMXBean = countManagerMXBean;
     }
 
     @ManagedProperty("#{missesManager}")
-    private MissesManager missesManager;
-    public void setMissesManager(MissesManager missesManager) {
-        this.missesManager = missesManager;
+    private MissesManagerMXBean missesManagerMXBean;
+    public void setMissesManagerMXBean(MissesManagerMXBean missesManagerMXBean) {
+        this.missesManagerMXBean = missesManagerMXBean;
     }
 
     @Override
@@ -45,8 +45,8 @@ public class HistoryManagerImpl implements HistoryManager {
         newHistory.setUser(user);
         dao.saveHistory(newHistory);
 
-        countManager.addUserHistory(sessionId, newHistory);
-        missesManager.addUserHistory(sessionId, newHistory);
+        countManagerMXBean.addUserResult(sessionId, newHistory.isResult());
+        missesManagerMXBean.addUserResult(sessionId, newHistory.isResult());
 
         user = dao.getUserById(sessionId);
         SortedSet<History> history = user.getHistories();

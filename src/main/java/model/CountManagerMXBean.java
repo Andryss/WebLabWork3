@@ -1,9 +1,7 @@
 package model;
 
-import model.data.entities.History;
-
-public interface CountManager {
-    void addUserHistory(String sessionId, History history);
+public interface CountManagerMXBean {
+    void addUserResult(String sessionId, boolean result);
     long getAllCount(String sessionId);
     long getMissedCount(String sessionId);
     long getHitCount(String sessionId);

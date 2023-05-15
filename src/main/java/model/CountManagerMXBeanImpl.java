@@ -1,37 +1,40 @@
 package model;
 
-import model.data.entities.History;
+import model.util.MBeanManager;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import java.util.*;
+import javax.faces.bean.ManagedProperty;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @ManagedBean(name = "countManager")
 @ApplicationScoped
-public class CountManagerImpl implements CountManager {
+public class CountManagerMXBeanImpl implements CountManagerMXBean {
 
     private static class SessionInfo {
         long allCount = 0;
         long hitCount = 0;
         long missCount = 0;
-        final LinkedList<History> lastAdded = new LinkedList<>();
     }
 
     private static final SessionInfo EMPTY_INFO = new SessionInfo();
 
-    private final Map<String, SessionInfo> sessionInfoMap = new HashMap<>();
+    private final Map<String, SessionInfo> sessionInfoMap = new ConcurrentHashMap<>();
+
+    public Map<String, SessionInfo> getSessionInfoMap() {
+        return sessionInfoMap;
+    }
 
     @Override
-    public void addUserHistory(String sessionId, History history) {
+    public void addUserResult(String sessionId, boolean result) {
         SessionInfo sessionInfo = sessionInfoMap.computeIfAbsent(sessionId, s -> new SessionInfo());
 
         sessionInfo.allCount++;
-        if (history.isResult()) sessionInfo.hitCount++;
+        if (result) sessionInfo.hitCount++;
         else sessionInfo.missCount++;
-
-        LinkedList<History> histories = sessionInfo.lastAdded;
-        histories.addLast(history);
-        while (histories.size() > 2) histories.removeFirst();
     }
 
     @Override
@@ -47,5 +50,22 @@ public class CountManagerImpl implements CountManager {
     @Override
     public long getHitCount(String sessionId) {
         return sessionInfoMap.getOrDefault(sessionId, EMPTY_INFO).hitCount;
+    }
+
+
+    @ManagedProperty("#{mBeanManager}")
+    private MBeanManager mBeanManager;
+    public void setmBeanManager(MBeanManager mBeanManager) {
+        this.mBeanManager = mBeanManager;
+    }
+
+    @PostConstruct
+    public void init() {
+        mBeanManager.registerMBean("counter", this);
+    }
+
+    @PreDestroy
+    public void destroy() {
+        mBeanManager.unregisterMBean(this);
     }
 }
