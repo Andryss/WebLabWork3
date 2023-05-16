@@ -52,6 +52,11 @@ public class CountManagerMXBeanImpl implements CountManagerMXBean {
     }
 
     @Override
+    public int getSessionsCount() {
+        return sessionInfoMap.size();
+    }
+
+    @Override
     public void addUserResult(String sessionId, boolean result) {
         SessionInfo sessionInfo = sessionInfoMap.computeIfAbsent(sessionId, s -> new SessionInfo());
 

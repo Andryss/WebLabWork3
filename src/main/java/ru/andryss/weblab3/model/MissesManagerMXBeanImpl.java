@@ -46,6 +46,11 @@ public class MissesManagerMXBeanImpl extends NotificationBroadcasterSupport impl
     }
 
     @Override
+    public int getSessionsCount() {
+        return historyMap.size();
+    }
+
+    @Override
     public void addUserResult(String sessionId, boolean result) {
         LinkedList<Boolean> histories = historyMap.computeIfAbsent(sessionId, s -> new LinkedList<>());
 
